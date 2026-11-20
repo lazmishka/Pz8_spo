@@ -1,0 +1,41 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Учебный портал</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/css/tabler.min.css">
+  <link rel="stylesheet" href="{% static 'accounts/app.css' %}">
+  <style>
+    .landing{min-height:100vh;background:radial-gradient(ellipse at 8% 0%,#ebe8ff 0,transparent 35%),#f7f8fc}
+    .landing-nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .landing-logo{font-weight:800;font-size:20px;color:#17233c;text-decoration:none;display:flex;align-items:center;gap:10px}
+    .landing-hero{padding:clamp(55px,10vw,125px) 0 80px;display:grid;grid-template-columns:1.1fr .9fr;gap:55px;align-items:center}
+    .landing-hero h1{font-size:clamp(2.6rem,5.8vw,5.1rem);font-weight:800;letter-spacing:-.065em;line-height:1.02;margin:18px 0 24px;color:#17233c}
+    .landing-hero h1 span{color:#6759e8}.landing-hero p{max-width:520px;font-size:17px;line-height:1.8;color:#6e7b92}
+    .landing-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.landing-actions .btn{padding:13px 20px;border-radius:10px}
+    .landing-preview{padding:24px;border:1px solid #e7eaf3;border-radius:22px;background:#fff;box-shadow:0 30px 80px #28204b12;transform:rotate(1deg)}
+    .preview-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eef0f6;padding-bottom:18px;margin-bottom:20px}.preview-dots{display:flex;gap:5px}.preview-dots i{width:7px;height:7px;background:#dedff0;border-radius:50%}
+    .preview-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.preview-kpi{border-radius:13px;padding:16px;background:#f8f8ff}.preview-kpi strong{font-size:24px;display:block;margin-top:7px}.preview-line{height:8px;border-radius:9px;background:#eeedff;margin-top:14px;overflow:hidden}.preview-line span{display:block;width:72%;height:100%;background:#7768ec;border-radius:9px}
+    .preview-course{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f1f6}.preview-course:last-child{border:0}.preview-badge{width:36px;height:36px;border-radius:10px;background:#efedff;display:grid;place-items:center;color:#6759e8;font-weight:700}
+    .landing-features{padding:26px 0 75px}.feature-card{height:100%;padding:25px;border:1px solid #e8ebf4;border-radius:16px;background:#fff}.feature-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:#efedff;color:#6759e8;font-size:20px;margin-bottom:20px}.landing-footer{border-top:1px solid #e8ebf4;padding:24px 0;color:#8791a5;font-size:12px}
+    @media(max-width:767px){.landing-hero{grid-template-columns:1fr;gap:38px;padding:48px 0}.landing-preview{transform:none}.landing-hero h1{font-size:clamp(2.5rem,12vw,4rem)}.landing-nav{height:70px}.landing-features{padding-bottom:45px}}
+  </style>
+</head>
+<body>
+<div class="landing">
+  <div class="container-xl">
+    <header class="landing-nav"><a class="landing-logo" href="/"><span class="brand-mark">У</span> Учебный портал</a><div class="d-flex align-items-center gap-2">{% if user.is_authenticated %}<a class="btn btn-primary" href="{% url 'profile' %}">Мой кабинет →</a>{% else %}<a class="btn btn-outline-primary" href="{% url 'login' %}">Войти</a>{% endif %}</div></header>
+    <main>
+      <section class="landing-hero">
+        <div><div class="page-pretitle">ВАШЕ УЧЕБНОЕ ПРОСТРАНСТВО</div><h1>Учебный портал</h1><p>Бронирование, выдача и возврат оборудования. Работа с собственными записями, проверка доступности и история изменений.</p><div class="landing-actions">{% if user.is_authenticated %}<a class="btn btn-primary btn-lg" href="{% url 'profile' %}">Перейти в кабинет <span class="ms-2">→</span></a><a class="btn btn-outline-secondary btn-lg" href="{% url 'course_list' %}">Посмотреть курсы</a>{% else %}<a class="btn btn-primary btn-lg" href="{% url 'login' %}">Войти в аккаунт <span class="ms-2">→</span></a><a class="btn btn-outline-secondary btn-lg" href="#features">О проекте</a>{% endif %}</div></div>
+        <div class="landing-preview"><div class="preview-top"><div><div class="page-pretitle">ВАШЕ ПРОСТРАНСТВО</div><strong>Обзор обучения</strong></div><span class="avatar">У</span></div><div class="preview-kpis"><div class="preview-kpi"><span class="text-secondary small">Учебный прогресс</span><strong>72%</strong><div class="preview-line"><span></span></div></div><div class="preview-kpi"><span class="text-secondary small">Активные курсы</span><strong>04</strong><span class="text-success small">Продолжайте в том же духе</span></div></div><div class="mt-4"><div class="d-flex justify-content-between"><strong>Ваши направления</strong><span class="text-secondary small">Пример</span></div><div class="preview-course"><span class="preview-badge">D</span><div class="flex-fill"><strong class="d-block">Веб-разработка</strong><span class="text-secondary small">Основы и практика</span></div><span class="badge bg-green-lt">В процессе</span></div><div class="preview-course"><span class="preview-badge" style="background:#e1f8ef;color:#159b77">P</span><div class="flex-fill"><strong class="d-block">Python и Django</strong><span class="text-secondary small">Работа с приложениями</span></div><span class="badge bg-azure-lt">Курс</span></div><div class="preview-course"><span class="preview-badge" style="background:#fff0e5;color:#d97732">U</span><div class="flex-fill"><strong class="d-block">UI / UX основы</strong><span class="text-secondary small">Дизайн интерфейсов</span></div><span class="badge bg-orange-lt">Курс</span></div></div></div>
+      </section>
+      <section id="features" class="landing-features"><div class="mb-4"><div class="page-pretitle">ВОЗМОЖНОСТИ</div><h2 class="page-title mt-2">Возможности портала</h2><p class="text-secondary">Инструменты для учёбы и работы с учебным оборудованием.</p></div><div class="row g-3"><div class="col-md-4"><div class="feature-card"><div class="feature-icon">▤</div><h3 class="h3">Оборудование</h3><p class="text-secondary mb-0">Просмотр экземпляров, категорий и текущей доступности.</p></div></div><div class="col-md-4"><div class="feature-card"><div class="feature-icon" style="background:#e2f8f0;color:#159b77">⌂</div><h3 class="h3">Бронирования</h3><p class="text-secondary mb-0">Создание и изменение записей, подтверждение резерва, выдача и возврат.</p></div></div><div class="col-md-4"><div class="feature-card"><div class="feature-icon" style="background:#fff0e5;color:#d97732">↗</div><h3 class="h3">История событий</h3><p class="text-secondary mb-0">Автоматическая запись действий с указанием пользователя и времени.</p></div></div></div></section>
+    </main>
+    <footer class="landing-footer d-flex justify-content-between flex-wrap gap-2"><span>Учебный портал</span><span>Учёба и работа</span></footer>
+  </div>
+</div>
+</body>
+</html>

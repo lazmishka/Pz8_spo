@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Курсы{% endblock %}
+{% block content %}
+<div class="page-header mb-4"><div><div class="page-pretitle">ОБУЧЕНИЕ</div><h2 class="page-title">Каталог курсов</h2><p class="text-secondary mt-2 mb-0">Все учебные направления в одном месте.</p></div><span class="badge bg-blue-lt">{{ courses|length }} курсов</span></div>
+<div class="card">
+ <div class="card-header course-toolbar"><div><h3 class="card-title">Доступные курсы</h3><div class="text-secondary small">Найдите нужный курс по названию или подразделению</div></div><div class="input-icon"><span class="input-icon-addon">⌕</span><input id="courseSearch" type="search" class="form-control" placeholder="Поиск курсов…" aria-label="Поиск курсов"></div></div>
+ <div class="table-responsive"><table class="table table-vcenter card-table"><thead><tr><th>Курс</th><th>Подразделение</th><th>Описание</th><th></th></tr></thead><tbody id="courseRows">
+ {% for course in courses %}<tr class="course-row"><td><div class="d-flex align-items-center"><span class="course-symbol">▤</span><div class="ms-3"><strong>{{ course.title }}</strong><div class="text-secondary small">Учебный курс</div></div></div></td><td><span class="badge bg-azure-lt">{{ course.department.name|default:"Не указано" }}</span></td><td class="description-cell">{{ course.description|default:"Описание пока не добавлено" }}</td><td><span class="text-secondary">→</span></td></tr>
+ {% empty %}
+ <tr><td colspan="4"><div class="empty-state"><h3>Курсов пока нет</h3>
+ {% if user.is_staff %}<p class="text-secondary">Добавить курсы можно через панель администрирования.</p><a href="/admin/" class="btn btn-primary">Открыть админ-панель</a>
+ {% else %}<p class="text-secondary">Пока нет доступных курсов.</p>{% endif %}
+ </div></td></tr>
+ {% endfor %}
+ </tbody></table></div>
+</div>
+{% endblock %}
+{% block scripts %}<script>
+const search=document.getElementById('courseSearch');
+if(search){search.addEventListener('input',()=>{const q=search.value.toLocaleLowerCase('ru');let visible=0;document.querySelectorAll('.course-row').forEach(row=>{const show=row.innerText.toLocaleLowerCase('ru').includes(q);row.hidden=!show;if(show)visible++;});const counter=document.getElementById('courseCount');if(counter)counter.textContent='Показано: '+visible;});}
+</script>{% endblock %}

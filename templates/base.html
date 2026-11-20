@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Учебный портал{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/css/tabler.min.css">
+  <link rel="stylesheet" href="{% static 'accounts/app.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+{% if user.is_authenticated %}
+<div class="page">
+  <aside class="navbar navbar-vertical navbar-expand-lg navbar-dark portal-sidebar" id="sidebar">
+    <div class="container-fluid">
+      <h1 class="navbar-brand navbar-brand-autodark"><a href="{% url 'profile' %}" class="brand-link"><span class="brand-mark">У</span><span>Учебный портал</span></a></h1>
+      <button class="navbar-toggler" type="button" aria-label="Открыть меню" id="menuToggle"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="sidebarMenu">
+        <div class="navbar-nav pt-lg-3">
+          <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}"><span class="nav-link-icon">⌂</span><span class="nav-link-title">Обзор</span></a>
+          <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+          href="{% url 'dashboard' %}"><span class="nav-link-icon">▣</span><span class="nav-link-title">Заявки</span></a>
+          <a class="nav-link {% if request.resolver_match.url_name == 'equipment-dashboard' %}active{% endif %}" href="{% url 'equipment-dashboard' %}"><span class="nav-link-icon">▧</span><span class="nav-link-title">Оборудование</span></a>
+          <a class="nav-link {% if request.resolver_match.url_name == 'course_list' %}active{% endif %}" href="{% url 'course_list' %}"><span class="nav-link-icon">▤</span><span class="nav-link-title">Курсы</span></a>
+          {% if user.is_authenticated and user.is_staff %}
+          <a class="nav-link" href="/admin/">
+              <span class="nav-link-icon">⚙</span>
+              <span class="nav-link-title">Администрирование</span>
+          </a>
+          {% endif %}
+        </div>
+        <div class="sidebar-bottom">
+          <div class="sidebar-note"><div class="note-icon">✦</div><strong>Продолжайте учиться</strong><p>Ваш учебный прогресс начинается здесь.</p></div>
+          <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-outline-light w-100" type="submit">Выйти из аккаунта ↗</button></form>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="page-wrapper">
+    <header class="navbar navbar-expand-md d-print-none topbar">
+      <div class="container-xl">
+        <div class="page-pretitle">УЧЕБНОЕ ПРОСТРАНСТВО</div>
+        <div class="ms-auto d-flex align-items-center gap-3"><span class="text-secondary d-none d-sm-inline">Добро пожаловать,</span><span class="avatar avatar-sm">{{ user.username|first|upper }}</span><strong>{{ user.username }}</strong></div>
+      </div>
+    </header>
+    <div class="page-body"><div class="container-xl">
+      {% if messages %}{% for message in messages %}<div class="alert alert-info">{{ message }}</div>{% endfor %}{% endif %}
+      {% block content %}{% endblock %}
+    </div></div>
+    <footer class="footer footer-transparent d-print-none"><div class="container-xl"><div class="text-secondary">Учебный портал</div><div class="text-secondary">Ваше пространство для учёбы</div></div></footer>
+  </div>
+</div>
+{% else %}
+{% block auth_content %}{% endblock %}
+{% endif %}
+<script>
+(() => {
+ const toggle=document.getElementById('menuToggle'), menu=document.getElementById('sidebarMenu');
+ if(toggle && menu) toggle.addEventListener('click',()=>menu.classList.toggle('show'));
+})();
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

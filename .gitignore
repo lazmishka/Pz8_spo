@@ -1,0 +1,14 @@
+.venv/
+.idea/
+__pycache__/
+*.py[cod]
+db.sqlite3
+db.sqlite3-*
+test_*.sqlite3
+test_*.sqlite3-*
+.env
+.env.*
+!.env.example
+Данные_входа.txt
+.DS_Store
+staticfiles/

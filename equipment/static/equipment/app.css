@@ -1,0 +1,11 @@
+.reservation-list { max-height: 33rem; overflow-y: auto; }
+.reservation-row { display: block; width: 100%; text-align: left; padding: 1rem; border: 1px solid var(--tblr-border-color, #dce1e7); border-radius: .5rem; background: transparent; margin-bottom: .6rem; color: inherit; overflow-wrap: anywhere; }
+.reservation-row:hover, .reservation-row[aria-pressed="true"] { border-color: #6366f1; background: #f1f1ff; }
+.reservation-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: .4rem; flex-wrap: wrap; }
+.reservation-purpose, .event-details { white-space: pre-wrap; overflow-wrap: anywhere; }
+.event-item { border-left: 2px solid #d9dafb; padding: 0 0 1.2rem 1rem; margin-left: .25rem; }
+.event-item:last-child { padding-bottom: 0; }
+.equipment-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+#reservation-detail dd { overflow-wrap: anywhere; }
+#operation-message, #load-error { white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 575px) { .equipment-actions .btn { width: 100%; } }

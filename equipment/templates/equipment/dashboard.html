@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Оборудование{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'equipment/app.css' %}">
+{% endblock %}
+{% block content %}
+<div class="page-header mb-4">
+  <div>
+    <div class="page-pretitle">БРОНИРОВАНИЕ И ВЫДАЧА</div>
+    <h1 class="page-title">Оборудование</h1>
+    <p class="text-secondary mt-2 mb-0">Создайте бронь, подтвердите резерв, оформите выдачу и возврат.</p>
+  </div>
+  <button type="button" id="refresh-all" class="btn btn-outline-primary">Обновить данные</button>
+</div>
+<div id="operation-message" role="status" aria-live="polite" hidden></div>
+<div id="load-error" class="alert alert-danger" role="alert" hidden></div>
+<div class="row row-cards mb-4">
+  <div class="col-lg-5">
+    <section class="card h-100" aria-labelledby="create-title">
+      <div class="card-header"><h2 class="card-title" id="create-title">Новое бронирование</h2></div>
+      <div class="card-body">
+        <p class="text-secondary small">Создание записи ещё не занимает экземпляр. Ресурс закрепляется при подтверждении. Вы управляете только своими бронированиями.</p>
+        <form id="reservation-form">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label" for="equipment-input">Экземпляр оборудования</label>
+            <select class="form-select" id="equipment-input" required disabled>
+              <option value="">Загрузка справочника…</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="purpose-input">Назначение использования</label>
+            <textarea class="form-control" id="purpose-input" rows="3" maxlength="500" required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit" id="create-button" disabled>Создать бронирование</button>
+        </form>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-7">
+    <section class="card h-100" aria-labelledby="list-title">
+      <div class="card-header"><h2 class="card-title" id="list-title">Мои бронирования</h2></div>
+      <div class="card-body">
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <label class="form-label" for="status-filter">Статус</label>
+            <select id="status-filter" class="form-select">
+              <option value="">Все статусы</option>
+              {% for value, label in reservation_statuses %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label" for="category-filter">Категория</label>
+            <select id="category-filter" class="form-select"><option value="">Все категории</option></select>
+          </div>
+        </div>
+        <p id="list-loading" class="text-secondary" role="status" hidden>Загрузка бронирований…</p>
+        <p id="list-count" class="text-secondary small" aria-live="polite"></p>
+        <div id="reservation-list" class="reservation-list"></div>
+      </div>
+    </section>
+  </div>
+</div>
+<div class="row row-cards">
+  <div class="col-lg-6">
+    <section class="card h-100" aria-labelledby="detail-title">
+      <div class="card-header"><h2 class="card-title" id="detail-title">Карточка бронирования</h2></div>
+      <div class="card-body" id="reservation-detail"><p class="text-secondary">Выберите запись в списке.</p></div>
+    </section>
+  </div>
+  <div class="col-lg-6">
+    <section class="card h-100" aria-labelledby="history-title">
+      <div class="card-header"><h2 class="card-title" id="history-title">История событий</h2></div>
+      <div class="card-body" id="reservation-history"><p class="text-secondary">История выбранной записи появится здесь.</p></div>
+    </section>
+  </div>
+</div>
+<noscript><div class="alert alert-warning mt-3">Для работы с REST API включите JavaScript.</div></noscript>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'equipment/app.js' %}" defer></script>
+{% endblock %}
